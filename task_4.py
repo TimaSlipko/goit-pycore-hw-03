@@ -2,6 +2,43 @@ from datetime import datetime
 from datetime import timedelta
 
 def get_upcoming_birthdays(users):
+    """
+    Get a list of users with birthdays in the next 7 days, adjusted for weekends.
+    
+    This function identifies users whose birthdays fall within the next 7 days
+    and returns their congratulation dates. If a birthday falls on a weekend
+    (Saturday or Sunday), the congratulation date is moved to the following Monday.
+    
+    Args:
+        users (list): A list of dictionaries, where each dictionary contains:
+            - 'name' (str): The user's name
+            - 'birthday' (str): The user's birthday in 'YYYY.MM.DD' format
+    
+    Returns:
+        list: A list of dictionaries containing users with upcoming birthdays.
+              Each dictionary has:
+            - 'name' (str): The user's name
+            - 'birthday' (str): The congratulation date in 'YYYY.MM.DD' format
+                               (adjusted to Monday if the birthday falls on a weekend)
+    
+    Raises:
+        TypeError: If users is not a list
+        ValueError: If any user dictionary is missing required fields, has invalid
+                   data types, or contains an invalid date format
+    
+    Example:
+        >>> users = [
+        ...     {"name": "John Doe", "birthday": "1985.10.10"},
+        ...     {"name": "Jane Smith", "birthday": "1990.10.15"}
+        ... ]
+        >>> get_upcoming_birthdays(users)
+        [{'name': 'John Doe', 'birthday': '2025.10.10'}]
+    
+    Note:
+        - The function considers birthdays within the next 7 days from today
+        - Weekend birthdays (Sat=5, Sun=6) are shifted to the following Monday
+        - The year in the input birthday is replaced with the current or next year
+    """
     if not isinstance(users, list):
         raise TypeError("users must be a list")
     
